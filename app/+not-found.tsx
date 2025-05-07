@@ -1,17 +1,20 @@
-import { Link, Stack } from 'expo-router';
-import { StyleSheet } from 'react-native';
-
-import { Text, View } from '@/components/Themed';
+// app/+not-found.tsx
+import { Link, Stack } from "expo-router";
+import { StyleSheet, View } from "react-native";
+import { StyledText } from "../src/components/ui/StyledText";
+import { Colors, Spacing } from "../src/constants/theme";
 
 export default function NotFoundScreen() {
   return (
     <>
-      <Stack.Screen options={{ title: 'Oops!' }} />
+      <Stack.Screen options={{ title: "Oops!" }} />
       <View style={styles.container}>
-        <Text style={styles.title}>This screen doesn't exist.</Text>
-
-        <Link href="/" style={styles.link}>
-          <Text style={styles.linkText}>Go to home screen!</Text>
+        <StyledText variant="title">Screen Not Found</StyledText>
+        <StyledText style={styles.message}>
+          This screen doesn't exist. Go back to the home screen.
+        </StyledText>
+        <Link href="/(tabs)" style={styles.link}>
+          <StyledText style={styles.linkText}>Go to Home Screen</StyledText>
         </Link>
       </View>
     </>
@@ -21,20 +24,22 @@ export default function NotFoundScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: Spacing.lg,
+    backgroundColor: Colors.background,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  message: {
+    marginVertical: Spacing.md,
+    textAlign: "center",
   },
   link: {
-    marginTop: 15,
-    paddingVertical: 15,
+    marginTop: Spacing.md,
+    paddingVertical: Spacing.md,
   },
   linkText: {
-    fontSize: 14,
-    color: '#2e78b7',
+    fontSize: 16,
+    color: Colors.primary,
+    fontWeight: "bold",
   },
 });
