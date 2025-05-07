@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
   ScrollView,
 } from "react-native";
-import { Link, useRouter, Stack } from "expo-router";
+import { useRouter, Stack } from "expo-router";
 import { useData } from "../../src/contexts/DataContext";
 import { StyledText } from "../../src/components/ui/StyledText";
 import { StyledButton } from "../../src/components/ui/StyledButton";
@@ -28,24 +28,21 @@ export default function CategoriesScreen() {
   const router = useRouter();
 
   useEffect(() => {
-    // If a category is already selected, and it has questions, pre-fill or navigate.
-    // For now, we just show the list.
-    // User has to explicitly select "All" or a category.
     if (!selectedCategory) {
-      selectCategory(null); // Select "All Questions" by default or on initial load
+      selectCategory(null);
     }
-  }, []); // Run once on mount
+  }, [selectedCategory, selectCategory]);
 
   const handleSelectCategory = (category: string | null) => {
     selectCategory(category);
-    router.push("/study"); // Navigate to study screen after selecting a category
+    router.push("/(tabs)/study");
   };
 
   if (isLoading && categories.length === 0) {
     return (
       <View style={styles.centered}>
         <ActivityIndicator size="large" color={Colors.primary} />
-        <StyledText style={{ marginTop: Spacing.md }}>Loading questions...</StyledText>
+        <StyledText style={{ marginTop: Spacing.md }}>Sorular yükleniyor...</StyledText>
       </View>
     );
   }
@@ -54,9 +51,9 @@ export default function CategoriesScreen() {
     return (
       <View style={styles.centered}>
         <StyledText variant="error" style={{ marginBottom: Spacing.md }}>
-          Error loading questions: {error.message}
+          Sorular yüklenirken hata oluştu: {error.message}
         </StyledText>
-        <StyledButton title="Retry" onPress={reloadQuestions} />
+        <StyledButton title="Tekrar Dene" onPress={reloadQuestions} />
       </View>
     );
   }
@@ -65,9 +62,10 @@ export default function CategoriesScreen() {
     return (
       <View style={styles.centered}>
         <StyledText style={{ textAlign: "center", marginBottom: Spacing.md }}>
-          No questions found. Make sure your Google Sheet is set up correctly and published.
+          Soru bulunamadı. Google E-Tablonuzun doğru şekilde kurulduğundan ve yayınlandığından emin
+          olun.
         </StyledText>
-        <StyledButton title="Reload Questions" onPress={reloadQuestions} />
+        <StyledButton title="Soruları Yeniden Yükle" onPress={reloadQuestions} />
       </View>
     );
   }
@@ -76,20 +74,20 @@ export default function CategoriesScreen() {
 
   return (
     <>
-      <Stack.Screen options={{ title: "Select a Category" }} />
+      <Stack.Screen options={{ title: "Ders Seçin" }} />
       <ScrollView style={styles.container}>
         <StyledText variant="title" style={styles.title}>
-          Choose a Category
+          Bir Ders Seçin
         </StyledText>
 
         <TouchableOpacity
           style={[styles.categoryItem, !selectedCategory && styles.selectedCategoryItem]}
-          onPress={() => handleSelectCategory(null)} // null for "All Questions"
+          onPress={() => handleSelectCategory(null)}
         >
           <StyledText
             style={[styles.categoryText, !selectedCategory && styles.selectedCategoryText]}
           >
-            All Questions ({questionsForCategory.length} cards)
+            Tüm Sorular ({questionsForCategory.length} kart)
           </StyledText>
         </TouchableOpacity>
         <ItemSeparator />
@@ -116,15 +114,15 @@ export default function CategoriesScreen() {
             </TouchableOpacity>
           )}
           ItemSeparatorComponent={ItemSeparator}
-          ListFooterComponent={<ItemSeparator />} // Add separator after last item as well
+          ListFooterComponent={<ItemSeparator />}
         />
         <View style={styles.buttonContainer}>
           <StyledButton
-            title="Reshuffle Current Deck"
+            title="Mevcut Desteyi Karıştır"
             onPress={() => {
               reshuffleQuestions();
               if (selectedCategory || questionsForCategory.length > 0) {
-                router.push("/study");
+                router.push("/(tabs)/study");
               }
             }}
             variant="outline"

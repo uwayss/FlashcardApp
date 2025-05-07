@@ -1,6 +1,6 @@
 // src/components/QuestionDisplay.tsx
 import React from "react";
-import { View, StyleSheet, TextInput } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Question } from "../types";
 import { StyledText } from "./ui/StyledText";
 import { Colors, Spacing, FontSize } from "../constants/theme";
@@ -21,18 +21,18 @@ export const QuestionDisplay: React.FC<QuestionDisplayProps> = ({ question, isAn
     }
 
     switch (question.type) {
-      case "definition":
+      case "tanim": // Updated
         return (
           <>
             <StyledText style={styles.questionLabel} variant="caption">
-              Define:
+              Tanımla:
             </StyledText>
             <StyledText style={styles.questionText} fontSize="xl">
               {question.questionText}
             </StyledText>
           </>
         );
-      case "fill-in-the-blank":
+      case "bosluk": // Updated
         const parts = question.questionText.split("___");
         return (
           <View style={styles.fillInTheBlankContainer}>
@@ -45,18 +45,18 @@ export const QuestionDisplay: React.FC<QuestionDisplayProps> = ({ question, isAn
             </StyledText>
           </View>
         );
-      case "true/false":
+      case "dogru/yanlis": // Updated
         return (
           <>
             <StyledText style={styles.questionLabel} variant="caption">
-              True or False:
+              Doğru ya da Yanlış:
             </StyledText>
             <StyledText style={styles.questionText} fontSize="xl">
               {question.questionText}
             </StyledText>
           </>
         );
-      case "short-answer":
+      case "kisa-cevap": // Updated
         return (
           <>
             <StyledText style={styles.questionText} fontSize="xl">
@@ -106,9 +106,9 @@ const styles = StyleSheet.create({
   blankSpace: {
     borderBottomWidth: 2,
     borderColor: Colors.textSecondary,
-    width: 100, // Adjust as needed
-    height: FontSize.lg, // To align with text
+    width: 100,
+    height: FontSize.lg,
     marginHorizontal: Spacing.xs,
-    marginBottom: Spacing.xs, // Align with text baseline
+    marginBottom: Spacing.xs,
   },
 });

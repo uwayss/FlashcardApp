@@ -30,7 +30,7 @@ export default function StudyScreen() {
     return (
       <View style={styles.centered}>
         <ActivityIndicator size="large" color={Colors.primary} />
-        <StyledText style={{ marginTop: Spacing.md }}>Loading card...</StyledText>
+        <StyledText style={{ marginTop: Spacing.md }}>Kart yükleniyor...</StyledText>
       </View>
     );
   }
@@ -39,11 +39,11 @@ export default function StudyScreen() {
     return (
       <View style={styles.centered}>
         <StyledText variant="error" style={{ marginBottom: Spacing.md }}>
-          Error: {error.message}
+          Hata: {error.message}
         </StyledText>
-        <StyledButton title="Retry Load" onPress={reloadQuestions} />
+        <StyledButton title="Tekrar Yükle" onPress={reloadQuestions} />
         <Link href="/(tabs)">
-          <StyledText style={styles.linkText}>Go to Categories</StyledText>
+          <StyledText style={styles.linkText}>Derslere Git</StyledText>
         </Link>
       </View>
     );
@@ -53,15 +53,15 @@ export default function StudyScreen() {
     return (
       <View style={styles.centered}>
         <StyledText style={styles.infoText}>
-          Please select a category first or ensure "All Questions" are loaded.
+          Lütfen önce bir ders seçin veya "Tüm Sorular"ın yüklendiğinden emin olun.
         </StyledText>
         <StyledButton
-          title="Go to Categories"
+          title="Derslere Git"
           onPress={() => router.push("/(tabs)")}
           style={{ marginTop: Spacing.md }}
         />
         <StyledButton
-          title="Reload All Questions"
+          title="Tüm Soruları Yenile"
           onPress={reloadQuestions}
           variant="outline"
           style={{ marginTop: Spacing.md }}
@@ -74,16 +74,16 @@ export default function StudyScreen() {
     return (
       <View style={styles.centered}>
         <StyledText style={styles.infoText}>
-          No questions found for{" "}
-          {selectedCategory ? `"${selectedCategory}"` : "the selected criteria"}.
+          Şunun için soru bulunamadı:{" "}
+          {selectedCategory ? `"${selectedCategory}"` : "seçili kriterler"}.
         </StyledText>
         <StyledButton
-          title="Choose Another Category"
+          title="Başka Ders Seç"
           onPress={() => router.push("/(tabs)")}
           style={{ marginTop: Spacing.md }}
         />
         <StyledButton
-          title="Reshuffle Deck"
+          title="Desteyi Karıştır"
           onPress={() => {
             reshuffleQuestions();
           }}
@@ -94,32 +94,30 @@ export default function StudyScreen() {
     );
   }
 
+  const screenTitle = selectedCategory ? `Çalış: ${selectedCategory}` : "Çalış: Tüm Sorular";
+
   return (
     <>
-      <Stack.Screen
-        options={{
-          title: selectedCategory ? `Study: ${selectedCategory}` : "Study: All Questions",
-        }}
-      />
+      <Stack.Screen options={{ title: screenTitle }} />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.container}>
           {currentQuestion ? (
             <Flashcard question={currentQuestion} />
           ) : (
             <View style={styles.centered}>
-              <StyledText>End of deck or no question loaded.</StyledText>
+              <StyledText>Deste bitti veya soru yüklenmedi.</StyledText>
             </View>
           )}
 
           {totalQuestions > 0 && (
             <StyledText style={styles.progressText}>
-              Card {currentQuestionIndex + 1} of {totalQuestions}
+              {currentQuestionIndex + 1}. Kart / {totalQuestions} Toplam
             </StyledText>
           )}
 
           <View style={styles.navigationButtons}>
             <StyledButton
-              title="Previous"
+              title="Önceki"
               onPress={goToPreviousQuestion}
               disabled={currentQuestionIndex === 0 || totalQuestions === 0}
               iconLeft={
@@ -133,7 +131,7 @@ export default function StudyScreen() {
               style={styles.navButton}
             />
             <StyledButton
-              title="Next"
+              title="Sonraki"
               onPress={goToNextQuestion}
               disabled={currentQuestionIndex === totalQuestions - 1 || totalQuestions === 0}
               iconRight={
@@ -148,18 +146,14 @@ export default function StudyScreen() {
             />
           </View>
           <StyledButton
-            title="Reshuffle This Deck"
+            title="Bu Desteyi Karıştır"
             onPress={reshuffleQuestions}
             variant="outline"
             style={{ marginTop: Spacing.lg }}
             disabled={totalQuestions === 0}
           />
           <Link href="/(tabs)" asChild>
-            <StyledButton
-              title="Change Category"
-              variant="ghost"
-              style={{ marginTop: Spacing.sm }}
-            />
+            <StyledButton title="Ders Değiştir" variant="ghost" style={{ marginTop: Spacing.sm }} />
           </Link>
         </View>
       </ScrollView>

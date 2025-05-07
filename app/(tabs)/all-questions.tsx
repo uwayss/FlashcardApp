@@ -6,12 +6,7 @@ import { useData } from "../../src/contexts/DataContext";
 import { StyledText } from "../../src/components/ui/StyledText";
 import { StyledButton } from "../../src/components/ui/StyledButton";
 import { Question } from "../../src/types";
-import { Colors, Spacing, BorderRadius, FontSize } from "../../src/constants/theme";
-
-interface SectionData {
-  title: string;
-  data: Question[];
-}
+import { Colors, Spacing, FontSize } from "../../src/constants/theme";
 
 export default function AllQuestionsScreen() {
   const { allQuestions, categories, isLoading, error, reloadQuestions, setCurrentQuestionById } =
@@ -20,25 +15,24 @@ export default function AllQuestionsScreen() {
 
   const sections = useMemo(() => {
     if (!allQuestions || allQuestions.length === 0) return [];
-
     return categories
       .map(category => ({
         title: category,
         data: allQuestions.filter(q => q.category === category),
       }))
-      .sort((a, b) => a.title.localeCompare(b.title)); // Sort categories alphabetically
+      .sort((a, b) => a.title.localeCompare(b.title));
   }, [allQuestions, categories]);
 
   const handleQuestionPress = (question: Question) => {
     setCurrentQuestionById(question.id);
-    router.push("/study"); // Navigate to the study tab
+    router.push("/(tabs)/study");
   };
 
   if (isLoading && allQuestions.length === 0) {
     return (
       <View style={styles.centered}>
         <ActivityIndicator size="large" color={Colors.primary} />
-        <StyledText style={{ marginTop: Spacing.md }}>Loading questions...</StyledText>
+        <StyledText style={{ marginTop: Spacing.md }}>Sorular yükleniyor...</StyledText>
       </View>
     );
   }
@@ -47,9 +41,9 @@ export default function AllQuestionsScreen() {
     return (
       <View style={styles.centered}>
         <StyledText variant="error" style={{ marginBottom: Spacing.md }}>
-          Error loading questions: {error.message}
+          Sorular yüklenirken hata oluştu: {error.message}
         </StyledText>
-        <StyledButton title="Retry" onPress={reloadQuestions} />
+        <StyledButton title="Tekrar Dene" onPress={reloadQuestions} />
       </View>
     );
   }
@@ -58,16 +52,16 @@ export default function AllQuestionsScreen() {
     return (
       <View style={styles.centered}>
         <StyledText style={{ textAlign: "center", marginBottom: Spacing.md }}>
-          No questions found. Add some to your Google Sheet!
+          Soru bulunamadı. Google E-Tablonuza birkaç soru ekleyin!
         </StyledText>
-        <StyledButton title="Reload Questions" onPress={reloadQuestions} />
+        <StyledButton title="Soruları Yeniden Yükle" onPress={reloadQuestions} />
       </View>
     );
   }
 
   return (
     <>
-      <Stack.Screen options={{ title: "All Questions" }} />
+      <Stack.Screen options={{ title: "Tüm Sorular" }} />
       <View style={styles.container}>
         <SectionList
           sections={sections}
@@ -76,7 +70,7 @@ export default function AllQuestionsScreen() {
             <TouchableOpacity style={styles.questionItem} onPress={() => handleQuestionPress(item)}>
               <StyledText style={styles.questionText}>{item.questionText}</StyledText>
               <StyledText style={styles.questionType} variant="caption">
-                Type: {item.type}
+                Tür: {item.type}
               </StyledText>
             </TouchableOpacity>
           )}
@@ -84,7 +78,7 @@ export default function AllQuestionsScreen() {
             <StyledText style={styles.sectionHeader}>{title}</StyledText>
           )}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
-          ListFooterComponent={<View style={{ height: Spacing.xl }} />} // Add some padding at the bottom
+          ListFooterComponent={<View style={{ height: Spacing.xl }} />}
         />
       </View>
     </>
@@ -105,7 +99,7 @@ const styles = StyleSheet.create({
   sectionHeader: {
     fontSize: FontSize.lg,
     fontWeight: "bold",
-    backgroundColor: Colors.background, // Or a light grey for distinction
+    backgroundColor: Colors.background,
     paddingVertical: Spacing.md,
     paddingHorizontal: Spacing.md,
     borderBottomWidth: 1,
@@ -128,6 +122,6 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     backgroundColor: Colors.border,
-    marginLeft: Spacing.lg, // Indent separator if desired
+    marginLeft: Spacing.lg,
   },
 });

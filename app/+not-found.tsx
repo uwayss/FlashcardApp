@@ -7,14 +7,12 @@ import { Colors, Spacing } from "../src/constants/theme";
 export default function NotFoundScreen() {
   return (
     <>
-      <Stack.Screen options={{ title: "Oops!" }} />
+      <Stack.Screen options={{ title: "Hay Aksi!" }} />
       <View style={styles.container}>
-        <StyledText variant="title">Screen Not Found</StyledText>
-        <StyledText style={styles.message}>
-          This screen doesn't exist. Go back to the home screen.
-        </StyledText>
+        <StyledText variant="title">Sayfa Bulunamadı</StyledText>
+        <StyledText style={styles.message}>Bu sayfa mevcut değil. Ana ekrana dönün.</StyledText>
         <Link href="/(tabs)" style={styles.link}>
-          <StyledText style={styles.linkText}>Go to Home Screen</StyledText>
+          <StyledText style={styles.linkText}>Ana Ekrana Git</StyledText>
         </Link>
       </View>
     </>
