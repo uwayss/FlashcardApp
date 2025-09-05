@@ -19,7 +19,7 @@ A simple, customizable flashcard application built with React Native and Expo. I
 *   Node.js and npm (or yarn)
 *   Expo CLI: `npm install -g expo-cli`
 
-### Setting up the Google Sheet
+### Setting up Your Data Source
 
 1.  **Create a Google Sheet:** Make a new Google Sheet.
 2.  **Format the Sheet:** The first row of your sheet must be the header row with the following column names (in any order):
@@ -33,7 +33,9 @@ A simple, customizable flashcard application built with React Native and Expo. I
     *   In the "Embed" section, select "Comma-separated values (.csv)".
     *   Click "Publish".
 4.  **Get the CSV URL:** Copy the generated URL.
-5.  **Update the App:** Open `src/api/googleSheets.ts` and replace the `GOOGLE_SHEET_CSV_URL` with your new URL.
+5.  **Configure the App:**
+    *   Create a new file named `.env` in the root of the project. You can do this by copying the example file: `cp .env.example .env`
+    *   Open the `.env` file and set the `EXPO_PUBLIC_GOOGLE_SHEET_CSV_URL` to the URL you copied in the previous step.
 
 ## How to Run
 
