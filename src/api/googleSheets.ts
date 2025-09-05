@@ -2,7 +2,7 @@
 import Papa from "papaparse";
 import { Question, RawQuestionData, QuestionType } from "../types";
 
-const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTd65YJo69HnyC10MV1O0sU89CC7n6vR4eLD99OIJvp7srVXVhtl5uh3lfZ8W9Ciwp7aCrSodaLLHuk/pub?gid=0&single=true&output=csv";
+const GOOGLE_SHEET_CSV_URL = process.env.EXPO_PUBLIC_GOOGLE_SHEET_CSV_URL;
 
 const VALID_QUESTION_TYPES: Set<QuestionType> = new Set<QuestionType>([
   "tanim",
@@ -12,6 +12,11 @@ const VALID_QUESTION_TYPES: Set<QuestionType> = new Set<QuestionType>([
 ]);
 
 export const fetchQuestions = async (): Promise<Question[]> => {
+  if (!GOOGLE_SHEET_CSV_URL) {
+    throw new Error(
+      "EXPO_PUBLIC_GOOGLE_SHEET_CSV_URL is not defined in your .env file. Please follow the instructions in the README.md to set it up.",
+    );
+  }
   try {
     const response = await fetch(GOOGLE_SHEET_CSV_URL);
     if (!response.ok) {
