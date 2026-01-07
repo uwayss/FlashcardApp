@@ -1,4 +1,5 @@
 # FlashcardApp
+! Simple & quick app I made to prepare for an exam with a friend. I won't use it again but here's the code anyways:
 
 A simple, customizable flashcard application built with React Native and Expo. It fetches questions and answers from a public Google Sheet, allowing you to create and study your own flashcard decks with ease.
 
